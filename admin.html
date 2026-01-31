@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Mangala Physiocare</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="icon" type="image/png" href="images/logo.png">
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="admin-header-content">
+                <h1 class="admin-title">
+                    <span>⚙️</span>
+                    <span>Admin Panel</span>
+                </h1>
+                <div class="admin-actions">
+                    <a href="index.html" target="_blank" class="btn btn-outline btn-sm">
+                        👁️ View Website
+                    </a>
+                    <button class="btn btn-danger btn-sm" id="reset-btn">
+                        🔄 Reset Data
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Navigation Tabs -->
+            <nav class="admin-nav">
+                <div class="admin-tabs">
+                    <button class="admin-tab active" data-section="dashboard">📊 Dashboard</button>
+                    <button class="admin-tab" data-section="clinic">🏥 Clinic Info</button>
+                    <button class="admin-tab" data-section="hero">🎯 Hero Section</button>
+                    <button class="admin-tab" data-section="about">ℹ️ About</button>
+                    <button class="admin-tab" data-section="services">💼 Services</button>
+                    <button class="admin-tab" data-section="exercises">💪 Treatments</button>
+                    <button class="admin-tab" data-section="contact">📞 Contact</button>
+                    <button class="admin-tab" data-section="footer">📄 Footer</button>
+                    <button class="admin-tab" data-section="social">🌐 Social</button>
+                    <button class="admin-tab" data-section="seo">🔍 SEO</button>
+                </div>
+            </nav>
+
+            <!-- Dashboard Section -->
+            <section class="admin-section active" id="dashboard">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">Welcome to Admin Panel</h2>
+                        <p class="admin-card-description">Manage all your website content from here</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div class="admin-card" style="text-align: center; margin-bottom: 0;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏥</div>
+                            <div style="font-weight: 600; font-size: 1.1rem;" id="dashboard-services-count">0</div>
+                            <div style="color: var(--admin-text-light); font-size: 0.9rem;">Services</div>
+                        </div>
+                        <div class="admin-card" style="text-align: center; margin-bottom: 0;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">💪</div>
+                            <div style="font-weight: 600; font-size: 1.1rem;" id="dashboard-exercises-count">0</div>
+                            <div style="color: var(--admin-text-light); font-size: 0.9rem;">Treatments</div>
+                        </div>
+                        <div class="admin-card" style="text-align: center; margin-bottom: 0;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">✅</div>
+                            <div style="font-weight: 600; font-size: 1.1rem; color: var(--admin-success);">Active</div>
+                            <div style="color: var(--admin-text-light); font-size: 0.9rem;">Website Status</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <h3 class="mb-2">Quick Actions</h3>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="switchSection('clinic')">Edit Clinic Info</button>
+                        <button class="btn btn-secondary" onclick="switchSection('services')">Manage Services</button>
+                        <button class="btn btn-outline" onclick="switchSection('contact')">Update Contact</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Clinic Info Section -->
+            <section class="admin-section" id="clinic">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">Clinic Information</h2>
+                        <p class="admin-card-description">Update your clinic's basic details and logo</p>
+                    </div>
+                    <form class="admin-form" id="clinic-form">
+                        <div class="form-group">
+                            <label class="form-label required" for="clinic-name">Clinic Name</label>
+                            <input type="text" class="form-input" id="clinic-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required" for="clinic-tagline">Tagline</label>
+                            <input type="text" class="form-input" id="clinic-tagline" required>
+                            <span class="form-hint">Short, memorable tagline for your clinic</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Logo</label>
+                            <input type="file" class="form-input" id="clinic-logo" accept="image/*">
+                            <span class="form-hint">Upload a new logo (JPG, PNG, or GIF)</span>
+                            <div id="logo-preview" style="margin-top: 1rem; display: none;">
+                                <img src="" alt="Logo preview"
+                                    style="max-width: 200px; border-radius: 0.5rem; box-shadow: var(--admin-shadow);">
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">💾 Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Hero Section -->
+            <section class="admin-section" id="hero">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">Hero Section</h2>
+                        <p class="admin-card-description">First impression matters - customize your hero section</p>
+                    </div>
+                    <form class="admin-form" id="hero-form">
+                        <div class="form-group">
+                            <label class="form-label required" for="hero-title">Hero Title</label>
+                            <input type="text" class="form-input" id="hero-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required" for="hero-subtitle">Hero Subtitle</label>
+                            <textarea class="form-textarea" id="hero-subtitle" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required" for="hero-cta-text">Button Text</label>
+                                <input type="text" class="form-input" id="hero-cta-text" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="hero-cta-link">Button Link</label>
+                                <input type="text" class="form-input" id="hero-cta-link" placeholder="#contact">
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">💾 Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="admin-section" id="about">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">About Section</h2>
+                        <p class="admin-card-description">Tell your story and build trust with visitors</p>
+                    </div>
+                    <form class="admin-form" id="about-form">
+                        <div class="form-group">
+                            <label class="form-label required" for="about-title">Section Title</label>
+                            <input type="text" class="form-input" id="about-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required" for="about-content">About Content</label>
+                            <textarea class="form-textarea" id="about-content" rows="6" required></textarea>
+                            <span class="form-hint">Describe your clinic, expertise, and values</span>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">💾 Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section class="admin-section" id="services">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">Services Management</h2>
+                        <p class="admin-card-description">Add, edit, or remove services you offer</p>
+                    </div>
+
+                    <button class="btn btn-primary mb-3" id="add-service-btn">➕ Add New Service</button>
+
+                    <div class="admin-table-container">
+                        <table class="admin-table" id="services-table">
+                            <thead>
+                                <tr>
+                                    <th>Icon</th>
+                                    <th>Service Name</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="services-table-body">
+                                <!-- Services will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Exercises/Treatments Section -->
+            <section class="admin-section" id="exercises">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">Treatments & Therapies</h2>
+                        <p class="admin-card-description">Manage your treatment offerings</p>
+                    </div>
+
+                    <button class="btn btn-primary mb-3" id="add-exercise-btn">➕ Add New Treatment</button>
+
+                    <div class="admin-table-container">
+                        <table class="admin-table" id="exercises-table">
+                            <thead>
+                                <tr>
+                                    <th>Treatment Name</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="exercises-table-body">
+                                <!-- Exercises will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="admin-section" id="contact">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">Contact Information</h2>
+                        <p class="admin-card-description">Update contact details and map location</p>
+                    </div>
+                    <form class="admin-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label required" for="contact-phone">Phone Number</label>
+                                <input type="tel" class="form-input" id="contact-phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label required" for="contact-email">Email Address</label>
+                                <input type="email" class="form-input" id="contact-email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required" for="contact-whatsapp">WhatsApp Number</label>
+                            <input type="tel" class="form-input" id="contact-whatsapp" required>
+                            <span class="form-hint">Include country code, e.g., +919876543210</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required" for="contact-address">Address</label>
+                            <textarea class="form-textarea" id="contact-address" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required" for="contact-map-url">Google Maps Embed URL</label>
+                            <textarea class="form-textarea" id="contact-map-url" rows="3" required></textarea>
+                            <span class="form-hint">Get the embed URL from Google Maps → Share → Embed a map</span>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">💾 Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Footer Section -->
+            <section class="admin-section" id="footer">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">Footer Settings</h2>
+                        <p class="admin-card-description">Customize footer content and copyright notice</p>
+                    </div>
+                    <form class="admin-form" id="footer-form">
+                        <div class="form-group">
+                            <label class="form-label required" for="footer-text">Footer Text</label>
+                            <textarea class="form-textarea" id="footer-text" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required" for="footer-copyright">Copyright Notice</label>
+                            <input type="text" class="form-input" id="footer-copyright" required>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">💾 Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Social Links Section -->
+            <section class="admin-section" id="social">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">Social Media Links</h2>
+                        <p class="admin-card-description">Add your social media profile URLs</p>
+                    </div>
+                    <form class="admin-form" id="social-form">
+                        <div class="form-group">
+                            <label class="form-label" for="social-facebook">Facebook URL</label>
+                            <input type="url" class="form-input" id="social-facebook"
+                                placeholder="https://facebook.com/yourpage">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="social-instagram">Instagram URL</label>
+                            <input type="url" class="form-input" id="social-instagram"
+                                placeholder="https://instagram.com/yourprofile">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="social-twitter">Twitter URL</label>
+                            <input type="url" class="form-input" id="social-twitter"
+                                placeholder="https://twitter.com/yourprofile">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="social-linkedin">LinkedIn URL</label>
+                            <input type="url" class="form-input" id="social-linkedin"
+                                placeholder="https://linkedin.com/company/yourcompany">
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">💾 Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- SEO Section -->
+            <section class="admin-section" id="seo">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2 class="admin-card-title">SEO Settings</h2>
+                        <p class="admin-card-description">Optimize your website for search engines</p>
+                    </div>
+                    <form class="admin-form" id="seo-form">
+                        <div class="form-group">
+                            <label class="form-label required" for="seo-title">Meta Title</label>
+                            <input type="text" class="form-input" id="seo-title" maxlength="60" required>
+                            <span class="form-hint">Recommended: 50-60 characters</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label required" for="seo-description">Meta Description</label>
+                            <textarea class="form-textarea" id="seo-description" maxlength="160" required></textarea>
+                            <span class="form-hint">Recommended: 150-160 characters</span>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-success">💾 Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Service Modal -->
+    <div class="modal-overlay" id="service-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="service-modal-title">Add Service</h3>
+            </div>
+            <div class="modal-body">
+                <form class="admin-form" id="service-modal-form">
+                    <input type="hidden" id="service-modal-id">
+                    <div class="form-group">
+                        <label class="form-label required" for="service-modal-name">Service Name</label>
+                        <input type="text" class="form-input" id="service-modal-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required" for="service-modal-description">Description</label>
+                        <textarea class="form-textarea" id="service-modal-description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required" for="service-modal-icon">Emoji Icon</label>
+                        <input type="text" class="form-input" id="service-modal-icon" required placeholder="🏥">
+                        <span class="form-hint">Use an emoji to represent this service</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="service-modal-cancel">Cancel</button>
+                <button class="btn btn-success" id="service-modal-save">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exercise Modal -->
+    <div class="modal-overlay" id="exercise-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exercise-modal-title">Add Treatment</h3>
+            </div>
+            <div class="modal-body">
+                <form class="admin-form" id="exercise-modal-form">
+                    <input type="hidden" id="exercise-modal-id">
+                    <div class="form-group">
+                        <label class="form-label required" for="exercise-modal-name">Treatment Name</label>
+                        <input type="text" class="form-input" id="exercise-modal-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required" for="exercise-modal-description">Description</label>
+                        <textarea class="form-textarea" id="exercise-modal-description" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="exercise-modal-cancel">Cancel</button>
+                <button class="btn btn-success" id="exercise-modal-save">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/data-service.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>

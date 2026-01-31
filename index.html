@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags (Dynamic) -->
+    <title id="seo-title">Mangala Hospital Physiocare & Sports Rehab Center</title>
+    <meta id="seo-description" name="description" content="Professional physiotherapy and sports rehabilitation services.">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" id="og-title" content="Mangala Hospital Physiocare">
+    <meta property="og:description" id="og-description" content="Professional physiotherapy and sports rehabilitation services.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="images/logo.jpg">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo-container">
+                    <img src="images/logo.jpg" alt="Mangala Physiocare Logo" class="logo-img" id="header-logo">
+                    <span class="clinic-name" id="header-clinic-name">Mangala Physiocare</span>
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- Navigation -->
+                <nav class="nav" id="nav">
+                    <ul class="nav-list">
+                        <li><a href="#home" class="nav-link">Home</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#services" class="nav-link">Services</a></li>
+                        <li><a href="#exercises" class="nav-link">Treatments</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Mobile Menu Overlay -->
+    <div class="nav-overlay" id="nav-overlay"></div>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title" id="hero-title">Expert Physiotherapy & Sports Rehabilitation</h1>
+                <p class="hero-subtitle" id="hero-subtitle">Your journey to recovery starts here</p>
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary" id="hero-cta">Book Appointment</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="about section" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2 id="about-title">About Us</h2>
+            </div>
+            <div class="about-content">
+                <p id="about-content">
+                    At Mangala Hospital Physiocare & Sports Rehab Center, we are dedicated to helping you recover from pain and injuries.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section class="services section" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Services</h2>
+            </div>
+            <div class="services-grid" id="services-grid">
+                <!-- Services will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Exercises/Treatments Section -->
+    <section class="exercises section" id="exercises">
+        <div class="container">
+            <div class="section-title">
+                <h2>Treatments & Therapies</h2>
+            </div>
+            <div class="exercises-list" id="exercises-list">
+                <!-- Exercises will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact section" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <!-- Phone -->
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <div class="contact-details">
+                            <h3>Phone</h3>
+                            <a href="tel:" id="contact-phone-link">
+                                <p id="contact-phone">+91 9876543210</p>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <a href="mailto:" id="contact-email-link">
+                                <p id="contact-email">info@mangalaphysiocare.com</p>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Address -->
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <div class="contact-details">
+                            <h3>Address</h3>
+                            <p id="contact-address">Mangala Hospital, City, State</p>
+                        </div>
+                    </div>
+                    
+                    <!-- WhatsApp -->
+                    <div id="whatsapp-container">
+                        <a href="#" class="whatsapp-btn" id="whatsapp-link" target="_blank" rel="noopener noreferrer">
+                            <span>💬</span>
+                            <span>Chat on WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Map -->
+                <div class="map-container" id="map-container">
+                    <iframe
+                        id="google-map"
+                        src=""
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 id="footer-clinic-name">Mangala Hospital Physiocare</h3>
+                    <p id="footer-text">Trusted healthcare partner for your rehabilitation needs.</p>
+                    <p id="footer-tagline" style="margin-top: 1rem; font-style: italic; color: #84cc16;"></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links" id="social-links">
+                        <!-- Social links will be dynamically loaded -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p id="footer-copyright">&copy; 2026 Mangala Physiocare. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="js/data-service.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
