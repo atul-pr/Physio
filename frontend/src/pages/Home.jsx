@@ -6,7 +6,6 @@ import ServiceCard from "../components/ServiceCard";
 import WhyChooseUs from "../components/WhyChooseUs";
 import DoctorSection from "../components/DoctorSection";
 import { services } from "../data/services";
-import { videos } from "../data/videos";
 import { apiMethods } from "../api/config";
 
 // Smooth animation config
@@ -15,14 +14,29 @@ const fadeInUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } 
 
 export default function Home() {
   const [doctor, setDoctor] = useState(null);
+  const [sliderImages, setSliderImages] = useState([]);
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    // Fetch doctor information from API
+    // Fetch doctor information, slider images, and videos from API
     const fetchContent = async () => {
       try {
-        const response = await apiMethods.getContent();
-        if (response.data && response.data.doctor) {
-          setDoctor(response.data.doctor);
+        const [contentRes, slidersRes, videosRes] = await Promise.all([
+          apiMethods.getContent(),
+          apiMethods.getSliders(),
+          apiMethods.getVideos()
+        ]);
+
+        if (contentRes.data && contentRes.data.doctor) {
+          setDoctor(contentRes.data.doctor);
+        }
+
+        if (slidersRes.data) {
+          setSliderImages(slidersRes.data);
+        }
+
+        if (videosRes.data) {
+          setVideos(videosRes.data);
         }
       } catch (error) {
         console.error("Error fetching content:", error);
@@ -43,6 +57,7 @@ export default function Home() {
         subtitle="Personalized care for sports injuries, orthopaedic conditions, and neurological rehabilitation. Your journey to recovery starts here."
         ctaText="Book Appointment"
         ctaLink="/appointment"
+        slides={sliderImages}
       />
 
       {/* Services Preview */}
@@ -118,7 +133,7 @@ export default function Home() {
           <div className="videos-grid">
             {videos.map((video, i) => (
               <motion.div
-                key={video.id}
+                key={video._id}
                 className="video-card"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -128,7 +143,7 @@ export default function Home() {
               >
                 <div className="video-embed">
                   <iframe
-                    src={`https://www.youtube.com/embed/${video.videoId}`}
+                    src={`https://www.youtube.com/embed/${video.youtubeId}`}
                     title={video.title}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen

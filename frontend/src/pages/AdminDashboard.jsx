@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { apiMethods } from "../api/config";
+import { useTheme } from "../hooks/useTheme";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function AdminDashboard() {
+  const { theme, toggleTheme, colors } = useTheme();
   const [appointments, setAppointments] = useState([]);
   const [filteredAppointments, setFilteredAppointments] = useState([]);
   const [statusFilter, setStatusFilter] = useState("All");
@@ -24,6 +27,11 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [viewMode, setViewMode] = useState("grid"); // grid or list
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminToken");
+    navigate("/login");
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
@@ -175,8 +183,9 @@ export default function AdminDashboard() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "#f8fafc",
-      fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif"
+      background: colors.background,
+      fontFamily: "'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif",
+      transition: "background 0.3s ease"
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap');
@@ -245,79 +254,175 @@ export default function AdminDashboard() {
 
       {/* Header */}
       <div style={{
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        padding: "2rem 1.5rem",
-        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+        background: colors.cardBg,
+        padding: "1rem 1.5rem",
+        boxShadow: colors.shadow,
+        borderBottom: `1px solid ${colors.border}`,
+        transition: "all 0.3s ease"
       }}>
         <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
           <div style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            flexWrap: "wrap",
-            gap: "1rem"
+            gap: "1.5rem"
           }}>
-            <div>
-              <h1 style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
-                fontWeight: "900",
-                color: "white",
-                margin: 0,
-                marginBottom: "0.5rem"
-              }}>
-                Clinical Dashboard
-              </h1>
-              <p style={{
-                color: "rgba(255, 255, 255, 0.9)",
-                margin: 0,
-                fontSize: "0.95rem"
-              }}>
-                Streamline patient appointments & care coordination
-              </p>
+            <div style={{ flexShrink: 0 }}>
+              <img
+                src="/logo.png"
+                alt="Mangala Physiocare"
+                style={{
+                  maxWidth: "220px",
+                  height: "auto",
+                  maxHeight: "50px",
+                  objectFit: "contain"
+                }}
+              />
             </div>
-            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <div style={{
+              display: "flex",
+              gap: "0.5rem",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              flex: 1
+            }}>
+              <ThemeToggle theme={theme} toggleTheme={toggleTheme} colors={colors} />
               <Link
                 to="/admin/doctor"
                 style={{
-                  padding: "0.875rem 1.75rem",
-                  background: "rgba(255, 255, 255, 0.2)",
+                  padding: "0.65rem 1.25rem",
+                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                   color: "white",
-                  border: "2px solid white",
-                  borderRadius: "12px",
-                  fontSize: "1rem",
+                  border: "none",
+                  borderRadius: "10px",
+                  fontSize: "0.9rem",
                   fontWeight: "600",
                   textDecoration: "none",
-                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                  boxShadow: "0 2px 4px rgba(102, 126, 234, 0.3)",
                   display: "flex",
                   alignItems: "center",
-                  gap: "0.5rem",
+                  gap: "0.4rem",
+                  transition: "all 0.3s ease",
+                  whiteSpace: "nowrap"
                 }}
               >
-                <span style={{ fontSize: "1.2rem" }}>👨‍⚕️</span>
-                Doctor Profile
+                <span style={{ fontSize: "1.1rem" }}>👨‍⚕️</span>
+                Doctor
+              </Link>
+              <Link
+                to="/admin/slider"
+                style={{
+                  padding: "0.65rem 1.25rem",
+                  background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "10px",
+                  fontSize: "0.9rem",
+                  fontWeight: "600",
+                  textDecoration: "none",
+                  boxShadow: "0 2px 4px rgba(16, 185, 129, 0.3)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                  transition: "all 0.3s ease",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                <span style={{ fontSize: "1.1rem" }}>🎨</span>
+                Slider
+              </Link>
+              <Link
+                to="/admin/social"
+                style={{
+                  padding: "0.65rem 1.25rem",
+                  background: "linear-gradient(135deg, #ec4899 0%, #be185d 100%)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "10px",
+                  fontSize: "0.9rem",
+                  fontWeight: "600",
+                  textDecoration: "none",
+                  boxShadow: "0 2px 4px rgba(236, 72, 153, 0.3)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                  transition: "all 0.3s ease",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                <span style={{ fontSize: "1.1rem" }}>🔗</span>
+                Social
+              </Link>
+              <Link
+                to="/admin/videos"
+                style={{
+                  padding: "0.65rem 1.25rem",
+                  background: "linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "10px",
+                  fontSize: "0.9rem",
+                  fontWeight: "600",
+                  textDecoration: "none",
+                  boxShadow: "0 2px 4px rgba(20, 184, 166, 0.3)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                  transition: "all 0.3s ease",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                <span style={{ fontSize: "1.1rem" }}>🎥</span>
+                Videos
               </Link>
               <motion.button
                 onClick={() => setShowNewForm(!showNewForm)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
-                  padding: "0.875rem 1.75rem",
-                  background: "white",
-                  color: "#667eea",
+                  padding: "0.65rem 1.25rem",
+                  background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                  color: "white",
                   border: "none",
-                  borderRadius: "12px",
-                  fontSize: "1rem",
+                  borderRadius: "10px",
+                  fontSize: "0.9rem",
                   fontWeight: "600",
                   cursor: "pointer",
-                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                  boxShadow: "0 2px 4px rgba(245, 158, 11, 0.3)",
                   display: "flex",
                   alignItems: "center",
-                  gap: "0.5rem",
+                  gap: "0.4rem",
+                  transition: "all 0.3s ease",
+                  whiteSpace: "nowrap"
                 }}
               >
-                <span style={{ fontSize: "1.2rem" }}>{showNewForm ? "✕" : "+"}</span>
-                {showNewForm ? "Cancel" : "New Appointment"}
+                <span style={{ fontSize: "1.1rem" }}>{showNewForm ? "✕" : "+"}</span>
+                {showNewForm ? "Cancel" : "New"}
+              </motion.button>
+              <motion.button
+                onClick={handleLogout}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  padding: "0.65rem 1.25rem",
+                  background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "10px",
+                  fontSize: "0.9rem",
+                  fontWeight: "600",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 4px rgba(239, 68, 68, 0.3)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                  transition: "all 0.3s ease",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                <span style={{ fontSize: "1.1rem" }}>🚪</span>
+                Logout
               </motion.button>
             </div>
           </div>
@@ -341,11 +446,12 @@ export default function AdminDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
               style={{
-                background: "white",
+                background: colors.cardBg,
                 padding: "1.5rem",
                 borderRadius: "16px",
-                boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
-                border: "1px solid #e2e8f0"
+                boxShadow: colors.shadow,
+                border: `1px solid ${colors.border}`,
+                transition: "all 0.3s ease"
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
@@ -364,7 +470,7 @@ export default function AdminDashboard() {
                 <div>
                   <div style={{
                     fontSize: "0.875rem",
-                    color: "#64748b",
+                    color: colors.textSecondary,
                     marginBottom: "0.25rem"
                   }}>
                     {stat.label}
@@ -372,7 +478,7 @@ export default function AdminDashboard() {
                   <div style={{
                     fontSize: "2rem",
                     fontWeight: "700",
-                    color: "#1e293b"
+                    color: colors.textPrimary
                   }}>
                     {stat.value}
                   </div>
@@ -417,12 +523,13 @@ export default function AdminDashboard() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               style={{
-                background: "white",
+                background: colors.cardBg,
                 border: "2px solid #667eea",
                 borderRadius: "16px",
                 padding: "2rem",
                 marginBottom: "2rem",
-                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+                boxShadow: colors.shadow,
+                transition: "all 0.3s ease"
               }}
             >
               <h3 style={{
@@ -430,7 +537,7 @@ export default function AdminDashboard() {
                 marginBottom: "1.5rem",
                 fontSize: "1.25rem",
                 fontWeight: "700",
-                color: "#1e293b"
+                color: colors.textPrimary
               }}>
                 Create New Appointment
               </h3>
@@ -578,12 +685,13 @@ export default function AdminDashboard() {
 
         {/* Filters & Search */}
         <div style={{
-          background: "white",
+          background: colors.cardBg,
           padding: "1.5rem",
           borderRadius: "16px",
           marginBottom: "2rem",
-          boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
-          border: "1px solid #e2e8f0"
+          boxShadow: colors.shadow,
+          border: `1px solid ${colors.border}`,
+          transition: "all 0.3s ease"
         }}>
           <div style={{
             display: "flex",
@@ -601,9 +709,11 @@ export default function AdminDashboard() {
                 minWidth: "250px",
                 padding: "0.75rem 1rem",
                 borderRadius: "10px",
-                border: "1px solid #cbd5e1",
+                border: `1px solid ${colors.inputBorder}`,
                 fontSize: "0.9375rem",
-                color: "#1e293b"
+                color: colors.textPrimary,
+                background: colors.inputBg,
+                transition: "all 0.2s ease"
               }}
             />
             <div className="filter-buttons" style={{
@@ -621,9 +731,9 @@ export default function AdminDashboard() {
                     padding: "0.625rem 1.25rem",
                     borderRadius: "8px",
                     border: "2px solid",
-                    borderColor: statusFilter === status ? "#667eea" : "#cbd5e1",
-                    background: statusFilter === status ? "#667eea" : "white",
-                    color: statusFilter === status ? "white" : "#64748b",
+                    borderColor: statusFilter === status ? "#667eea" : colors.border,
+                    background: statusFilter === status ? "#667eea" : colors.cardBg,
+                    color: statusFilter === status ? "white" : colors.textSecondary,
                     cursor: "pointer",
                     fontSize: "0.875rem",
                     fontWeight: "600",
@@ -682,7 +792,7 @@ export default function AdminDashboard() {
             </div>
           </div>
           <p style={{
-            color: "#64748b",
+            color: colors.textSecondary,
             marginTop: "1rem",
             marginBottom: 0,
             fontSize: "0.875rem"
@@ -741,11 +851,12 @@ export default function AdminDashboard() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       style={{
-                        background: "white",
-                        border: "1px solid #e2e8f0",
+                        background: colors.cardBg,
+                        border: `1px solid ${colors.border}`,
                         borderRadius: "16px",
                         padding: "1.5rem",
-                        boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)"
+                        boxShadow: colors.shadow,
+                        transition: "all 0.3s ease"
                       }}
                     >
                       <div style={{
@@ -758,7 +869,7 @@ export default function AdminDashboard() {
                           margin: 0,
                           fontSize: "1.25rem",
                           fontWeight: "700",
-                          color: "#1e293b"
+                          color: colors.textPrimary
                         }}>
                           {apt.patientName}
                         </h3>
@@ -813,11 +924,19 @@ export default function AdminDashboard() {
                           display: "flex",
                           alignItems: "start",
                           gap: "0.75rem",
-                          color: "#475569",
+                          color: colors.textSecondary,
                           fontSize: "0.9375rem"
                         }}>
                           <span style={{ fontSize: "1.125rem", marginTop: "2px" }}>📋</span>
-                          <span style={{ flex: 1 }}>{apt.problem}</span>
+                          <span style={{
+                            flex: 1,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            lineHeight: "1.5"
+                          }}>{apt.problem}</span>
                         </div>
                       </div>
 
@@ -825,7 +944,7 @@ export default function AdminDashboard() {
                         display: "grid",
                         gridTemplateColumns: "1fr 1fr",
                         gap: "0.625rem",
-                        marginBottom: "0.625rem"
+                        marginBottom: "1.25rem"
                       }}>
                         <select
                           value={apt.status}
@@ -833,12 +952,13 @@ export default function AdminDashboard() {
                           style={{
                             padding: "0.625rem",
                             borderRadius: "8px",
-                            border: "1px solid #cbd5e1",
-                            background: "white",
-                            color: "#1e293b",
+                            border: `1px solid ${colors.inputBorder}`,
+                            background: colors.inputBg,
+                            color: colors.textPrimary,
                             cursor: "pointer",
                             fontSize: "0.875rem",
-                            fontWeight: "500"
+                            fontWeight: "500",
+                            transition: "all 0.2s ease"
                           }}
                         >
                           <option value="Pending">Pending</option>
@@ -847,20 +967,22 @@ export default function AdminDashboard() {
                         </select>
                         <motion.button
                           onClick={() => handleEditClick(apt)}
-                          whileHover={{ scale: 1.03 }}
-                          whileTap={{ scale: 0.97 }}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                           style={{
                             padding: "0.625rem",
                             borderRadius: "8px",
-                            border: "1px solid #667eea",
-                            background: "#f0f4ff",
-                            color: "#667eea",
+                            border: "none",
+                            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                            color: "white",
                             cursor: "pointer",
+                            fontSize: "0.875rem",
                             fontWeight: "600",
-                            fontSize: "0.875rem"
+                            transition: "all 0.2s ease",
+                            boxShadow: "0 2px 4px rgba(102, 126, 234, 0.2)"
                           }}
                         >
-                          ✏️ Edit
+                          📝 View Details
                         </motion.button>
                       </div>
 

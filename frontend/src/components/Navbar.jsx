@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { apiMethods } from "../api/config";
 
 const navLinks = [
   { path: "/", label: "Home" },
@@ -13,7 +14,21 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [socialLinks, setSocialLinks] = useState([]);
   const location = useLocation();
+
+  // Fetch social links
+  useEffect(() => {
+    const fetchSocialLinks = async () => {
+      try {
+        const res = await apiMethods.getSocialLinks();
+        setSocialLinks(res.data);
+      } catch (error) {
+        console.error("Failed to fetch social links:", error);
+      }
+    };
+    fetchSocialLinks();
+  }, []);
 
   // Handle scroll effect
   useEffect(() => {
@@ -57,7 +72,7 @@ export default function Navbar() {
         .navbar-container {
           max-width: 1280px;
           margin: 0 auto;
-          padding: 0.5rem 1.5rem;
+          padding: 0.375rem 1.5rem;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -82,9 +97,9 @@ export default function Navbar() {
         }
         
         .navbar-logo-icon {
-          width: 250px;
+          width: 200px;
           height: auto;
-          max-height: 65px;
+          max-height: 50px;
           border-radius: 8px;
           object-fit: contain;
           display: block;
@@ -376,6 +391,42 @@ export default function Navbar() {
 
           {/* Desktop Actions */}
           <div className="navbar-actions">
+            {/* Social Links */}
+            {socialLinks.length > 0 && (
+              <div style={{
+                display: "flex",
+                gap: "0.75rem",
+                alignItems: "center",
+                marginRight: "1rem"
+              }}>
+                {socialLinks.map((link) => (
+                  <motion.a
+                    key={link._id}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                      fontSize: "1.5rem",
+                      textDecoration: "none",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      boxShadow: "0 2px 8px rgba(102, 126, 234, 0.3)",
+                      transition: "all 0.3s ease"
+                    }}
+                    title={link.platform}
+                  >
+                    {link.icon}
+                  </motion.a>
+                ))}
+              </div>
+            )}
             <Link to="/appointment" className="navbar-btn navbar-btn-primary">
               Book Appointment
             </Link>
@@ -459,7 +510,7 @@ export default function Navbar() {
       </motion.header>
 
       {/* Spacer to prevent content jump */}
-      <div style={{ height: scrolled ? "60px" : "70px" }} />
+      <div style={{ height: scrolled ? "50px" : "58px" }} />
     </>
   );
 }

@@ -50,7 +50,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.2;
@@ -73,7 +76,9 @@ button {
   border: none;
 }
 
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: inherit;
   font-size: 1rem;
 }
@@ -234,10 +239,12 @@ input, textarea, select {
 }
 
 @media (max-width: 900px) {
+
   .navbar-links,
   .navbar-actions {
     display: none;
   }
+
   .navbar-toggle {
     display: flex;
   }
@@ -278,6 +285,130 @@ input, textarea, select {
   margin-bottom: 1.5rem;
   line-height: 1.6;
 }
+
+/* ========== Hero Slider ========== */
+.hero-slider {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-slider-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slider-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.hero-slider-empty .hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--color-bg-alt) 0%, #e0f2f1 100%);
+  z-index: 0;
+}
+
+/* Slider Navigation Arrows */
+.hero-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--color-primary);
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.hero-slider-arrow:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hero-slider-arrow-left {
+  left: 1.5rem;
+}
+
+.hero-slider-arrow-right {
+  right: 1.5rem;
+}
+
+/* Slider Dots Navigation */
+.hero-slider-dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.75rem;
+  z-index: 2;
+}
+
+.hero-slider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.hero-slider-dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.hero-slider-dot.active {
+  background: white;
+  transform: scale(1.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Slider */
+@media (max-width: 768px) {
+  .hero-slider-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .hero-slider-arrow-left {
+    left: 1rem;
+  }
+
+  .hero-slider-arrow-right {
+    right: 1rem;
+  }
+
+  .hero-slider-dots {
+    bottom: 1.5rem;
+    gap: 0.5rem;
+  }
+
+  .hero-slider-dot {
+    width: 10px;
+    height: 10px;
+  }
+}
+
 
 /* ========== Service Card ========== */
 .service-card {
@@ -350,26 +481,26 @@ input, textarea, select {
 .footer-inner {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem;
-  padding: 3rem 1.5rem;
+  gap: 1.5rem;
+  padding: 2rem 1.5rem;
 }
 
 .footer-logo {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: white;
 }
 
 .footer-tagline {
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   opacity: 0.8;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .footer h4 {
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
   color: white;
 }
 
@@ -378,12 +509,13 @@ input, textarea, select {
 }
 
 .footer li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .footer a {
   color: rgba(255, 255, 255, 0.8);
   transition: color 0.2s;
+  font-size: 0.9rem;
 }
 
 .footer a:hover {
@@ -392,13 +524,13 @@ input, textarea, select {
 
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1.5rem;
+  padding: 1rem;
   text-align: center;
 }
 
 .footer-bottom p {
   opacity: 0.7;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 @media (max-width: 768px) {
@@ -761,6 +893,7 @@ main {
   background: #d1fae5;
   color: #065f46;
 }
+
 /* ============================
    ADMIN DASHBOARD – CRUD FIX
    ============================ */

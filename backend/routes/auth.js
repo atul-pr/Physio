@@ -46,4 +46,42 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// PUT /api/change-password - change admin password
+router.put("/change-password", async (req, res) => {
+  try {
+    const { email, oldPassword, newPassword } = req.body;
+
+    // Validate required fields
+    if (!email || !oldPassword || !newPassword) {
+      return res.status(400).json({ message: "Email, old password, and new password are required." });
+    }
+
+    // Validate new password length
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "New password must be at least 6 characters long." });
+    }
+
+    // Find admin by email
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(401).json({ message: "Invalid email or password." });
+    }
+
+    // Verify old password
+    const isMatch = await admin.comparePassword(oldPassword);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password." });
+    }
+
+    // Update password
+    admin.password = newPassword;
+    await admin.save(); // This triggers the pre-save hook to hash the password
+
+    res.json({ message: "Password changed successfully." });
+  } catch (err) {
+    console.error("Change password error:", err);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
 export default router;

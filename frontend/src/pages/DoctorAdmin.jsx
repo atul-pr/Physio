@@ -6,6 +6,11 @@ import DoctorManagement from "../components/DoctorManagement";
 export default function DoctorAdmin() {
     const navigate = useNavigate();
 
+    const handleLogout = () => {
+        localStorage.removeItem("adminToken");
+        navigate("/login");
+    };
+
     useEffect(() => {
         const token = localStorage.getItem("adminToken");
         if (!token) {
@@ -56,23 +61,43 @@ export default function DoctorAdmin() {
                                 Update doctor information displayed on your website
                             </p>
                         </div>
-                        <Link
-                            to="/admin"
-                            style={{
-                                padding: "0.875rem 1.75rem",
-                                background: "white",
-                                color: "#667eea",
-                                border: "none",
-                                borderRadius: "12px",
-                                fontSize: "1rem",
-                                fontWeight: "600",
-                                textDecoration: "none",
-                                boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                                display: "inline-block",
-                            }}
-                        >
-                            ← Back to Dashboard
-                        </Link>
+                        <div style={{ display: "flex", gap: "0.75rem" }}>
+                            <Link
+                                to="/admin"
+                                style={{
+                                    padding: "0.875rem 1.75rem",
+                                    background: "white",
+                                    color: "#667eea",
+                                    border: "none",
+                                    borderRadius: "12px",
+                                    fontSize: "1rem",
+                                    fontWeight: "600",
+                                    textDecoration: "none",
+                                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                                    display: "inline-block",
+                                }}
+                            >
+                                ← Back to Dashboard
+                            </Link>
+                            <motion.button
+                                onClick={handleLogout}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                style={{
+                                    padding: "0.875rem 1.75rem",
+                                    background: "rgba(255, 255, 255, 0.95)",
+                                    color: "#ef4444",
+                                    border: "2px solid white",
+                                    borderRadius: "12px",
+                                    fontSize: "1rem",
+                                    fontWeight: "600",
+                                    cursor: "pointer",
+                                    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                                }}
+                            >
+                                🚪 Logout
+                            </motion.button>
+                        </div>
                     </div>
                 </div>
             </div>

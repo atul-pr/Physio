@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import HeroSlider from "./HeroSlider";
 
 const spring = { type: "spring", stiffness: 100, damping: 20 };
 
-export default function Hero({ 
-  title, 
-  subtitle, 
-  ctaText = "Book Appointment", 
-  ctaLink = "/appointment", 
+export default function Hero({
+  title,
+  subtitle,
+  ctaText = "Book Appointment",
+  ctaLink = "/appointment",
   showCta = true,
   backgroundImage = null,
-  overlay = true
+  overlay = true,
+  slides = [] // New prop for slider images
 }) {
   return (
     <>
@@ -202,6 +204,7 @@ export default function Hero({
           font-size: 0.875rem;
           cursor: pointer;
           animation: bounce 2s infinite;
+          z-index:2;
         }
         
         @keyframes bounce {
@@ -266,15 +269,20 @@ export default function Hero({
           hidden: {},
         }}
       >
-        <div className="hero-background">
-          {backgroundImage && (
-            <div 
-              className="hero-background-image"
-              style={{ backgroundImage: `url(${backgroundImage})` }}
-            />
-          )}
-          <div className="hero-pattern" />
-        </div>
+        {/* Use HeroSlider if slides are provided, otherwise use default background */}
+        {slides && slides.length > 0 ? (
+          <HeroSlider slides={slides} />
+        ) : (
+          <div className="hero-background">
+            {backgroundImage && (
+              <div
+                className="hero-background-image"
+                style={{ backgroundImage: `url(${backgroundImage})` }}
+              />
+            )}
+            <div className="hero-pattern" />
+          </div>
+        )}
 
         <div className="hero-content-wrapper">
           <motion.h1

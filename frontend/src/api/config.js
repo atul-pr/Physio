@@ -54,4 +54,56 @@ export const apiMethods = {
   // Update doctor information (admin)
   updateDoctor: (data) =>
     api.put("/api/content/doctor", data),
+
+  // Change password
+  changePassword: (email, oldPassword, newPassword) =>
+    api.put("/api/change-password", { email, oldPassword, newPassword }),
+
+  // Slider operations
+  getSliders: () =>
+    api.get("/api/sliders"),
+
+  getAllSliders: () =>
+    api.get("/api/sliders/all"),
+
+  createSlider: (data) =>
+    api.post("/api/sliders", data),
+
+  updateSlider: (id, data) =>
+    api.put(`/api/sliders/${id}`, data),
+
+  deleteSlider: (id) =>
+    api.delete(`/api/sliders/${id}`),
+
+  // Social Links operations
+  getSocialLinks: () =>
+    api.get("/api/social-links"),
+
+  getAllSocialLinks: () =>
+    api.get("/api/social-links/all"),
+
+  createSocialLink: (data) =>
+    api.post("/api/social-links", data),
+
+  updateSocialLink: (id, data) =>
+    api.put(`/api/social-links/${id}`, data),
+
+  deleteSocialLink: (id) =>
+    api.delete(`/api/social-links/${id}`),
+
+  // Videos operations
+  getVideos: () =>
+    api.get("/api/videos"),
+
+  getAllVideos: () =>
+    api.get("/api/videos/all"),
+
+  createVideo: (data) =>
+    api.post("/api/videos", data),
+
+  updateVideo: (id, data) =>
+    api.put(`/api/videos/${id}`, data),
+
+  deleteVideo: (id) =>
+    api.delete(`/api/videos/${id}`),
 };
