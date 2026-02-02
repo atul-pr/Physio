@@ -1,32 +1,32 @@
 import express from 'express';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import Slider from '../models/slider.model.js';
 import { authMiddleware } from '../middleware/auth.js';
 import { upload } from '../middleware/upload.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import cloudinary from '../config/cloudinary.js';
 
 const router = express.Router();
 
-// Helper function to delete old image file
-const deleteImageFile = (imageUrl) => {
-    if (!imageUrl || !imageUrl.startsWith('/uploads/sliders/')) {
-        return; // Skip if not a local upload
+// Helper function to delete image from Cloudinary
+const deleteCloudinaryImage = async (imageUrl) => {
+    if (!imageUrl || !imageUrl.includes('cloudinary.com')) {
+        return; // Skip if not a Cloudinary URL
     }
 
     try {
-        const filename = path.basename(imageUrl);
-        const filePath = path.join(__dirname, '..', 'uploads', 'sliders', filename);
+        // Extract public_id from Cloudinary URL
+        // URL format: https://res.cloudinary.com/cloud_name/image/upload/v123456/folder/filename.jpg
+        const urlParts = imageUrl.split('/');
+        const uploadIndex = urlParts.indexOf('upload');
+        if (uploadIndex !== -1 && uploadIndex + 2 < urlParts.length) {
+            // Get folder/filename part and remove extension
+            const publicIdWithExt = urlParts.slice(uploadIndex + 2).join('/');
+            const publicId = publicIdWithExt.substring(0, publicIdWithExt.lastIndexOf('.'));
 
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath);
-            console.log(`Deleted old image: ${filename}`);
+            await cloudinary.uploader.destroy(publicId);
+            console.log(`Deleted Cloudinary image: ${publicId}`);
         }
     } catch (error) {
-        console.error(`Error deleting image file: ${error.message}`);
+        console.error(`Error deleting Cloudinary image: ${error.message}`);
     }
 };
 
@@ -59,9 +59,9 @@ router.post('/', authMiddleware, upload.single('image'), async (req, res) => {
     try {
         const { title, subtitle, order, isActive } = req.body;
 
-        // Use uploaded file path or imageUrl from body
+        // Use Cloudinary URL from uploaded file or imageUrl from body
         const imageUrl = req.file
-            ? `/uploads/sliders/${req.file.filename}`
+            ? req.file.path  // Cloudinary URL
             : req.body.imageUrl;
 
         if (!imageUrl) {
@@ -107,7 +107,7 @@ router.put('/:id', authMiddleware, upload.single('image'), async (req, res) => {
 
         // Only update imageUrl if new file uploaded or new URL provided
         if (req.file) {
-            updateData.imageUrl = `/uploads/sliders/${req.file.filename}`;
+            updateData.imageUrl = req.file.path;  // Cloudinary URL
             shouldDeleteOldImage = true;
         } else if (req.body.imageUrl && req.body.imageUrl !== oldImageUrl) {
             updateData.imageUrl = req.body.imageUrl;
@@ -120,9 +120,9 @@ router.put('/:id', authMiddleware, upload.single('image'), async (req, res) => {
             { new: true, runValidators: true }
         );
 
-        // Delete old image file if it was replaced
+        // Delete old image from Cloudinary if it was replaced
         if (shouldDeleteOldImage) {
-            deleteImageFile(oldImageUrl);
+            await deleteCloudinaryImage(oldImageUrl);
         }
 
         res.json({ message: 'Slider updated successfully', slider });
@@ -140,8 +140,8 @@ router.delete('/:id', authMiddleware, async (req, res) => {
             return res.status(404).json({ message: 'Slider not found' });
         }
 
-        // Delete the associated image file
-        deleteImageFile(slider.imageUrl);
+        // Delete the associated image from Cloudinary
+        await deleteCloudinaryImage(slider.imageUrl);
 
         res.json({ message: 'Slider deleted successfully' });
     } catch (error) {
@@ -150,3 +150,4 @@ router.delete('/:id', authMiddleware, async (req, res) => {
 });
 
 export default router;
+
