@@ -350,7 +350,7 @@ export default function Hero({
               <div className="hero-stat-label">Patients Treated</div>
             </div>
             <div className="hero-stat">
-              <div className="hero-stat-number">10+</div>
+              <div className="hero-stat-number">11+</div>
               <div className="hero-stat-label">Years Experience</div>
             </div>
             <div className="hero-stat">

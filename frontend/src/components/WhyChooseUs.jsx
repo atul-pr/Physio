@@ -270,7 +270,7 @@ export default function WhyChooseUs() {
             <p className="why-subtitle">Why Choose PhysioCare</p>
             <h2 className="why-title">Excellence in Physiotherapy Care</h2>
             <p className="why-description">
-              We combine clinical expertise, advanced technology, and personalized care 
+              We combine clinical expertise, advanced technology, and personalized care
               to help you achieve optimal recovery and wellness.
             </p>
           </motion.div>
@@ -342,7 +342,7 @@ export default function WhyChooseUs() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
               >
-                15+
+                11+
               </motion.div>
               <div className="why-stat-label">Years Experience</div>
             </div>

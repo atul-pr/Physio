@@ -98,7 +98,7 @@ router.get("/content", async (req, res) => {
       ],
       stats: {
         patients: "2000+",
-        experience: "15+",
+        experience: "11+",
         successRate: "98%",
         treatments: "50+",
       },
