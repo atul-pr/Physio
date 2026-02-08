@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import BackendStatus from "./components/BackendStatus";
@@ -21,6 +22,11 @@ import ServiceDetail from "./pages/ServiceDetail";
 function App() {
   const location = useLocation();
   const isAdminPage = location.pathname === "/login" || location.pathname.startsWith("/admin");
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <div className="app">

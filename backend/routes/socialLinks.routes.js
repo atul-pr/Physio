@@ -1,62 +1,14 @@
 import express from "express";
-import mongoose from "mongoose";
+import SocialLink from "../models/SocialLink.js";
 import { authMiddleware } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Define Social Link Schema
-const socialLinkSchema = new mongoose.Schema(
-    {
-        platform: {
-            type: String,
-            required: true,
-            enum: ["youtube", "facebook", "instagram", "twitter", "linkedin", "whatsapp"],
-        },
-        url: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-        icon: {
-            type: String,
-            default: "🔗",
-        },
-        displayOrder: {
-            type: Number,
-            default: 0,
-        },
-        isActive: {
-            type: Boolean,
-            default: true,
-        },
-    },
-    {
-        timestamps: true,
-    }
-);
-
-// Set default icons based on platform
-socialLinkSchema.pre("save", function (next) {
-    if (!this.icon || this.icon === "🔗") {
-        const iconMap = {
-            youtube: "🎥",
-            facebook: "👍",
-            instagram: "📷",
-            twitter: "🐦",
-            linkedin: "💼",
-            whatsapp: "💬",
-        };
-        this.icon = iconMap[this.platform] || "🔗";
-    }
-    next();
-});
-
-const SocialLink = mongoose.model("SocialLink", socialLinkSchema);
-
-// Public route - Get all active social links
+// Public route - Get active social links (optionally filtered by context)
 router.get("/", async (req, res) => {
     try {
-        const links = await SocialLink.find({ isActive: true }).sort({ displayOrder: 1 });
+        let query = { isActive: true, showInFooter: { $ne: false } };
+        const links = await SocialLink.find(query).sort({ displayOrder: 1 });
         res.json(links);
     } catch (error) {
         res.status(500).json({ message: "Error fetching social links", error: error.message });
@@ -76,7 +28,7 @@ router.get("/all", authMiddleware, async (req, res) => {
 // Admin route - Create new social link
 router.post("/", authMiddleware, async (req, res) => {
     try {
-        const { platform, url, icon, displayOrder, isActive } = req.body;
+        const { platform, url, icon, displayOrder, isActive, showInFooter } = req.body;
 
         if (!platform || !url) {
             return res.status(400).json({ message: "Platform and URL are required" });
@@ -87,7 +39,8 @@ router.post("/", authMiddleware, async (req, res) => {
             url,
             icon,
             displayOrder: displayOrder || 0,
-            isActive: isActive !== undefined ? isActive : true,
+            isActive: isActive !== undefined ? Boolean(isActive) : true,
+            showInFooter: showInFooter !== undefined ? Boolean(showInFooter) : true,
         });
 
         await socialLink.save();
@@ -100,11 +53,18 @@ router.post("/", authMiddleware, async (req, res) => {
 // Admin route - Update social link
 router.put("/:id", authMiddleware, async (req, res) => {
     try {
-        const { platform, url, icon, displayOrder, isActive } = req.body;
+        const { platform, url, icon, displayOrder, isActive, showInFooter } = req.body;
 
         const socialLink = await SocialLink.findByIdAndUpdate(
             req.params.id,
-            { platform, url, icon, displayOrder, isActive },
+            {
+                platform,
+                url,
+                icon,
+                displayOrder,
+                isActive: Boolean(isActive),
+                showInFooter: showInFooter !== undefined ? Boolean(showInFooter) : true
+            },
             { new: true, runValidators: true }
         );
 

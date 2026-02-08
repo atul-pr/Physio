@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const socialLinkSchema = new mongoose.Schema(
     {
@@ -24,6 +24,10 @@ const socialLinkSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
+        showInFooter: {
+            type: Boolean,
+            default: true,
+        },
     },
     {
         timestamps: true,
@@ -46,4 +50,6 @@ socialLinkSchema.pre("save", function (next) {
     next();
 });
 
-module.exports = mongoose.model("SocialLink", socialLinkSchema);
+// Check if model exists before creating to prevent OverwriteModelError
+const SocialLink = mongoose.models.SocialLink || mongoose.model("SocialLink", socialLinkSchema);
+export default SocialLink;

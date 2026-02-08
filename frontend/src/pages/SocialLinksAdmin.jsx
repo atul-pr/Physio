@@ -18,6 +18,7 @@ export default function SocialLinksAdmin() {
         url: "",
         displayOrder: 0,
         isActive: true,
+        showInFooter: true,
     });
     const navigate = useNavigate();
 
@@ -29,6 +30,15 @@ export default function SocialLinksAdmin() {
         { value: "linkedin", label: "LinkedIn", icon: "💼" },
         { value: "whatsapp", label: "WhatsApp", icon: "💬" },
     ];
+
+    const faIcons = {
+        youtube: "fa-brands fa-youtube",
+        facebook: "fa-brands fa-facebook-f",
+        instagram: "fa-brands fa-instagram",
+        twitter: "fa-brands fa-x-twitter",
+        linkedin: "fa-brands fa-linkedin-in",
+        whatsapp: "fa-brands fa-whatsapp"
+    };
 
     const handleLogout = () => {
         localStorage.removeItem("adminToken");
@@ -83,6 +93,7 @@ export default function SocialLinksAdmin() {
             url: link.url,
             displayOrder: link.displayOrder,
             isActive: link.isActive,
+            showInFooter: link.showInFooter ?? true,
         });
         setEditingId(link._id);
         setShowForm(true);
@@ -105,6 +116,7 @@ export default function SocialLinksAdmin() {
             url: "",
             displayOrder: 0,
             isActive: true,
+            showInFooter: true,
         });
         setEditingId(null);
         setShowForm(false);
@@ -147,7 +159,7 @@ export default function SocialLinksAdmin() {
                                 Social Media Links
                             </h1>
                             <p style={{ margin: 0, color: colors.textSecondary }}>
-                                Manage your social media links displayed in the navbar
+                                Manage your social media links displayed in the footer
                             </p>
                         </div>
                         <div style={{ display: "flex", gap: "0.75rem" }}>
@@ -321,19 +333,32 @@ export default function SocialLinksAdmin() {
                                             />
                                         </div>
 
-                                        <div>
-                                            <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: colors.textSecondary }}>
-                                                Active
-                                            </label>
-                                            <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.75rem", cursor: "pointer" }}>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={formData.isActive}
-                                                    onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                                                    style={{ width: "20px", height: "20px", cursor: "pointer" }}
-                                                />
-                                                <span style={{ color: colors.textPrimary }}>Show in navbar</span>
-                                            </label>
+                                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                                            <div>
+                                                <label style={{ display: "block", marginBottom: "0.5rem", fontWeight: "600", color: colors.textSecondary }}>
+                                                    Visibility
+                                                </label>
+                                                <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                                                    <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={formData.isActive}
+                                                            onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                                                            style={{ width: "18px", height: "18px", cursor: "pointer" }}
+                                                        />
+                                                        <span style={{ color: colors.textPrimary, fontSize: "0.9rem" }}>Active</span>
+                                                    </label>
+                                                    <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={formData.showInFooter}
+                                                            onChange={(e) => setFormData({ ...formData, showInFooter: e.target.checked })}
+                                                            style={{ width: "18px", height: "18px", cursor: "pointer" }}
+                                                        />
+                                                        <span style={{ color: colors.textPrimary, fontSize: "0.9rem" }}>Show in Footer</span>
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -421,22 +446,38 @@ export default function SocialLinksAdmin() {
                                     >
                                         <div style={{ flex: 1 }}>
                                             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
-                                                <span style={{ fontSize: "1.5rem" }}>{link.icon || platformInfo?.icon}</span>
+                                                <span style={{ fontSize: "1.25rem", color: "#667eea", width: "24px", textAlign: "center" }}>
+                                                    <i className={faIcons[link.platform] || "fa-solid fa-link"}></i>
+                                                </span>
                                                 <h4 style={{ margin: 0, color: colors.textPrimary }}>
                                                     {platformInfo?.label || link.platform}
                                                 </h4>
-                                                {!link.isActive && (
-                                                    <span style={{
-                                                        padding: "0.25rem 0.5rem",
-                                                        background: "#6b7280",
-                                                        color: "white",
-                                                        borderRadius: "6px",
-                                                        fontSize: "0.75rem",
-                                                        fontWeight: "600"
-                                                    }}>
-                                                        Inactive
-                                                    </span>
-                                                )}
+                                                <div style={{ display: "flex", gap: "0.5rem" }}>
+                                                    {!link.isActive && (
+                                                        <span style={{
+                                                            padding: "0.2rem 0.4rem",
+                                                            background: "#6b7280",
+                                                            color: "white",
+                                                            borderRadius: "4px",
+                                                            fontSize: "0.7rem",
+                                                            fontWeight: "600"
+                                                        }}>
+                                                            Inactive
+                                                        </span>
+                                                    )}
+                                                    {link.showInFooter !== false && (
+                                                        <span style={{
+                                                            padding: "0.2rem 0.4rem",
+                                                            background: "#10b981",
+                                                            color: "white",
+                                                            borderRadius: "4px",
+                                                            fontSize: "0.7rem",
+                                                            fontWeight: "600"
+                                                        }}>
+                                                            Visible in Footer
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
                                             <a
                                                 href={link.url}

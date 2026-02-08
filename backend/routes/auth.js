@@ -56,9 +56,12 @@ router.put("/change-password", async (req, res) => {
       return res.status(400).json({ message: "Email, old password, and new password are required." });
     }
 
-    // Validate new password length
-    if (newPassword.length < 6) {
-      return res.status(400).json({ message: "New password must be at least 6 characters long." });
+    // Validate new password strength
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$/;
+    if (!strongPasswordRegex.test(newPassword)) {
+      return res.status(400).json({
+        message: "New password does not meet strength requirements: Minimum 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character."
+      });
     }
 
     // Find admin by email

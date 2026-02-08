@@ -4,11 +4,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { apiMethods } from "../api/config";
-import { useTheme } from "../hooks/useTheme";
-import ThemeToggle from "../components/ThemeToggle";
+
 
 export default function Login() {
-  const { theme, toggleTheme, colors } = useTheme();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [isChangePassword, setIsChangePassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -41,20 +39,37 @@ export default function Login() {
     }
   };
 
+  const validatePassword = (pass) => {
+    const requirements = [
+      { regex: /.{8,}/, text: "At least 8 characters" },
+      { regex: /[A-Z]/, text: "At least one uppercase letter" },
+      { regex: /[a-z]/, text: "At least one lowercase letter" },
+      { regex: /[0-9]/, text: "At least one number" },
+      { regex: /[^A-Za-z0-9]/, text: "At least one special character" },
+    ];
+    return requirements.map(req => ({
+      ...req,
+      isMet: req.regex.test(pass)
+    }));
+  };
+
+  const passwordRequirements = validatePassword(newPassword);
+  const isPasswordStrong = passwordRequirements.every(req => req.isMet);
+
   const handleChangePassword = async (e) => {
     e.preventDefault();
+
+    if (!isPasswordStrong) {
+      setError("Please meet all password strength requirements.");
+      return;
+    }
+
     setLoading(true);
     setError("");
     setSuccess("");
 
     if (newPassword !== confirmPassword) {
       setError("New passwords do not match.");
-      setLoading(false);
-      return;
-    }
-
-    if (newPassword.length < 6) {
-      setError("New password must be at least 6 characters long.");
       setLoading(false);
       return;
     }
@@ -79,10 +94,7 @@ export default function Login() {
 
   return (
     <>
-      {/* Theme Toggle - Fixed Position */}
-      <div style={{ position: "fixed", top: "1.5rem", right: "1.5rem", zIndex: 1000 }}>
-        <ThemeToggle theme={theme} toggleTheme={toggleTheme} colors={colors} />
-      </div>
+
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -363,6 +375,19 @@ export default function Login() {
                         onFocus={(e) => (e.target.style.borderColor = "var(--color-primary)")}
                         onBlur={(e) => (e.target.style.borderColor = "rgba(255, 255, 255, 0.1)")}
                       />
+
+                      {/* Password Strength Requirements */}
+                      <div className="password-requirements" style={{ marginTop: "0.75rem", padding: "0.5rem", borderRadius: "8px", background: "rgba(0,0,0,0.15)" }}>
+                        <p style={{ fontSize: "0.80rem", marginBottom: "0.40rem", fontWeight: "600", color: "#94a3b8" }}>Password Requirements:</p>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "0.30rem" }}>
+                          {passwordRequirements.map((req, idx) => (
+                            <div key={idx} style={{ display: "flex", alignItems: "center", fontSize: "0.75rem", color: req.isMet ? "#34d399" : "#94a3b8", transition: "all 0.3s ease" }}>
+                              <span style={{ marginRight: "0.5rem" }}>{req.isMet ? "✅" : "⭕"}</span>
+                              <span>{req.text}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
 
                     <div className="form-group" style={{ marginBottom: "1.5rem" }}>
@@ -441,15 +466,16 @@ export default function Login() {
                     <motion.button
                       type="submit"
                       className="btn btn-primary btn-lg"
-                      disabled={loading}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
+                      disabled={loading || !isPasswordStrong}
+                      whileHover={{ scale: isPasswordStrong ? 1.02 : 1 }}
+                      whileTap={{ scale: isPasswordStrong ? 0.98 : 1 }}
                       style={{
                         width: "100%",
                         padding: "1rem",
                         marginBottom: "1rem",
-                        background: loading ? "rgba(59, 130, 246, 0.5)" : "var(--color-primary)",
-                        opacity: loading ? 0.7 : 1,
+                        background: (loading || !isPasswordStrong) ? "rgba(59, 130, 246, 0.3)" : "var(--color-primary)",
+                        opacity: (loading || !isPasswordStrong) ? 0.6 : 1,
+                        cursor: isPasswordStrong ? "pointer" : "not-allowed"
                       }}
                     >
                       {loading ? "Updating..." : "Update Password"}
@@ -466,17 +492,15 @@ export default function Login() {
                         setSuccess("");
                       }}
                       style={{
-                        width: "100%",
-                        padding: "0.75rem",
-                        background: "transparent",
-                        border: "2px solid var(--color-primary)",
-                        color: "var(--color-primary)",
-                        borderRadius: "8px",
-                        cursor: "pointer",
-                        fontSize: "0.95rem",
-                        fontWeight: "500",
-                        transition: "all 0.3s ease",
+                        background: "rgba(255, 255, 255, 0.08)", // transparent glass
+                        backdropFilter: "blur(18px)",
+                        WebkitBackdropFilter: "blur(18px)",
+                        borderRadius: "16px",
+                        padding: "2.5rem",
+                        boxShadow: "0 20px 50px rgba(0, 0, 0, 0.25)",
+                        border: "1px solid rgba(255, 255, 255, 0.18)",
                       }}
+
                       onMouseEnter={(e) => {
                         e.target.style.background = "rgba(59, 130, 246, 0.1)";
                       }}

@@ -19,6 +19,33 @@ export default function Appointment() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Client-side validation
+    if (formData.patientName.trim().length < 2) {
+      setMessage({ type: "error", text: "Please enter a valid full name (at least 2 characters)." });
+      return;
+    }
+
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(formData.phone.replace(/[\s-]/g, ''))) {
+      setMessage({ type: "error", text: "Please provide a valid 10-digit phone number." });
+      return;
+    }
+
+    const appointmentDate = new Date(formData.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of today for date-only comparison
+
+    if (appointmentDate < today) {
+      setMessage({ type: "error", text: "Please choose a date in the future." });
+      return;
+    }
+
+    if (formData.problem.trim().length < 5) {
+      setMessage({ type: "error", text: "Please provide a more descriptive problem (at least 5 characters)." });
+      return;
+    }
+
     setLoading(true);
     setMessage({ type: "", text: "" });
 
@@ -29,11 +56,9 @@ export default function Appointment() {
     } catch (err) {
       let msg = "Failed to book appointment. Please try again.";
       if (err.code === "ERR_NETWORK" || !err.response) {
-        msg = "Cannot connect to server. Make sure the backend is running (cd backend → npm run dev).";
+        msg = "Cannot connect to server. Make sure the backend is running.";
       } else if (err.response?.data?.message) {
         msg = err.response.data.message;
-      } else if (err.response?.status === 400) {
-        msg = "Please fill all required fields correctly.";
       }
       setMessage({ type: "error", text: msg });
     } finally {

@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { contactInfo } from "../data/contact";
+import { apiMethods } from "../api/config";
 
 const footerLinks = {
   quick: [
@@ -15,11 +17,36 @@ const footerLinks = {
     { path: "/services", label: "Manual Therapy" },
     { path: "/services", label: "Rehabilitation" },
     { path: "/services", label: "Post-Surgery Care" },
+    { path: "/admin", label: "Admin" },
+
   ],
+};
+
+const platformIcons = {
+  facebook: "fa-brands fa-facebook-f",
+  youtube: "fa-brands fa-youtube",
+  instagram: "fa-brands fa-instagram",
+  twitter: "fa-brands fa-x-twitter",
+  linkedin: "fa-brands fa-linkedin-in",
+  whatsapp: "fa-brands fa-whatsapp"
 };
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
+  const [socialLinks, setSocialLinks] = useState([]);
+
+  useEffect(() => {
+    const fetchSocialLinks = async () => {
+      try {
+        const res = await apiMethods.getSocialLinks();
+        setSocialLinks(res.data);
+      } catch (error) {
+        console.error("Failed to fetch social links for footer:", error);
+      }
+    };
+    fetchSocialLinks();
+  }, [location.pathname]);
 
   return (
     <>
@@ -372,54 +399,36 @@ export default function Footer() {
               transition={{ duration: 0.5 }}
             >
               <Link to="/" className="footer-logo">
-                <div className="footer-logo-icon">⚕️</div>
-                <span>PhysioCare</span>
+                <img
+                  src="/logo.png"
+                  alt="PhysioCare Logo"
+                  style={{
+                    width: "280px",
+                    height: "auto",
+                    maxHeight: "80px",
+                    objectFit: "contain"
+                  }}
+                />
               </Link>
               <p className="footer-tagline">
                 Professional physiotherapy and rehabilitation care helping you recover,
                 rebuild, and reach your wellness goals.
               </p>
               <div className="footer-social">
-                <motion.a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-link"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  f
-                </motion.a>
-                <motion.a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-link"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  📷
-                </motion.a>
-                <motion.a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-link"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  🐦
-                </motion.a>
-                <motion.a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-link"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  in
-                </motion.a>
+                {socialLinks.filter(link => link.showInFooter !== false).map((link) => (
+                  <motion.a
+                    key={link._id}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-social-link"
+                    title={link.platform}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <i className={platformIcons[link.platform] || "fa-solid fa-link"}></i>
+                  </motion.a>
+                ))}
               </div>
             </motion.div>
 
