@@ -348,7 +348,7 @@ export default function AdminDashboard() {
               marginBottom: "0.5rem",
               letterSpacing: "-0.5px"
             }}>
-              Appointments Dashboard
+              Admin Dashboard
             </h1>
             <p className="header-subtitle" style={{ color: colors.textSecondary, margin: 0, fontSize: "1.125rem" }}>
               Monitor and manage patient appointment requests efficiently

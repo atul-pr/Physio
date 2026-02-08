@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { apiMethods } from "../api/config";
 
@@ -125,6 +125,26 @@ export default function Login() {
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.3 }}
               >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "1.5rem",
+                  }}
+                >
+                  <Link to="/">
+                    <img
+                      src="/logo.png"
+                      alt="PhysioCare Logo"
+                      style={{
+                        height: "32px",
+                        width: "auto",
+                        filter: "drop-shadow(0 0 6px rgba(59, 130, 246, 0.25))",
+                      }}
+                    />
+                  </Link>
+                </div>
+
                 {!isChangePassword ? (
                   <form onSubmit={handleLogin}>
                     <motion.h2
