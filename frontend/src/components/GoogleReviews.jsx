@@ -221,19 +221,36 @@ export default function GoogleReviews() {
           padding: 1.5rem;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
           border: 1px solid rgba(14, 165, 233, 0.1);
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           height: 100%;
           display: flex;
           flex-direction: column;
           cursor: pointer;
           text-decoration: none;
           color: inherit;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .review-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.05), transparent);
+          transition: left 0.5s ease;
+        }
+        
+        .review-card:hover::before {
+          left: 100%;
         }
         
         .review-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
-          border-color: rgba(14, 165, 233, 0.3);
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: 0 20px 40px rgba(14, 165, 233, 0.15), 0 0 0 2px rgba(14, 165, 233, 0.2);
+          border-color: rgba(14, 165, 233, 0.4);
         }
         
         .review-header {
