@@ -159,27 +159,7 @@ export default function ServiceDetail() {
                             </div>
                         </motion.div>
 
-                        {/* Session Information */}
-                        <motion.div variants={itemVariants} style={{ marginBottom: "4rem" }}>
-                            <div style={{
-                                background: "var(--color-bg-alt)",
-                                padding: "2rem",
-                                borderRadius: "12px",
-                                border: "2px solid var(--color-primary)",
-                                display: "grid",
-                                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-                                gap: "2rem"
-                            }}>
-                                <div style={{ textAlign: "center" }}>
-                                    <h3 style={{ color: "var(--color-primary)", marginBottom: "0.5rem", fontSize: "1.1rem" }}>Session Duration</h3>
-                                    <p style={{ fontSize: "1.3rem", fontWeight: "600", color: "var(--color-text)", margin: 0 }}>{service.duration}</p>
-                                </div>
-                                <div style={{ textAlign: "center" }}>
-                                    <h3 style={{ color: "var(--color-primary)", marginBottom: "0.5rem", fontSize: "1.1rem" }}>Typical Treatment Plan</h3>
-                                    <p style={{ fontSize: "1.3rem", fontWeight: "600", color: "var(--color-text)", margin: 0 }}>{service.sessions}</p>
-                                </div>
-                            </div>
-                        </motion.div>
+
 
                         {/* Call to Action */}
                         <motion.div variants={itemVariants} style={{ textAlign: "center", marginBottom: "4rem" }}>
