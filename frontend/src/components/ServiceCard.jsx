@@ -194,9 +194,15 @@ export default function ServiceCard({ service, index = 0 }) {
           <h3 className="service-card-title">{service.title}</h3>
           <p className="service-card-description">{service.description}</p>
 
-          <Link to={`/services/${service.slug}`} className="service-card-link">
-            Learn More
-          </Link>
+          {service.external ? (
+            <a href={service.link} className="service-card-link">
+              {service.linkText || "Learn More"}
+            </a>
+          ) : (
+            <Link to={`/services/${service.slug}`} className="service-card-link">
+              {service.linkText || "Learn More"}
+            </Link>
+          )}
         </div>
       </motion.article>
     </>

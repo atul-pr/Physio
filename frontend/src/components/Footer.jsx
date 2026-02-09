@@ -127,7 +127,8 @@ export default function Footer() {
         }
         
         .footer-tagline {
-          font-family: 'Inter', sans-serif;
+          font-family: 'Inter
+           sans-serif;
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           margin: 0 0 1.5rem 0;

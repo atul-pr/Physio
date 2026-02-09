@@ -5,6 +5,7 @@ import Hero from "../components/Hero";
 import ServiceCard from "../components/ServiceCard";
 import WhyChooseUs from "../components/WhyChooseUs";
 import DoctorSection from "../components/DoctorSection";
+import GoogleReviews from "../components/GoogleReviews";
 import { services } from "../data/services";
 import { apiMethods } from "../api/config";
 
@@ -163,6 +164,9 @@ export default function Home() {
       <DoctorSection doctor={doctor} />
 
       <WhyChooseUs />
+
+      {/* Google Reviews Section */}
+      <GoogleReviews />
 
       {/* CTA Section */}
       <section className="section" style={{ padding: "5rem 1.5rem", background: "var(--color-bg)" }}>

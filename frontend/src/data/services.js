@@ -195,5 +195,18 @@ export const services = [
     duration: "30-45 minutes per session",
     sessions: "4-8 sessions for initial program, then periodic follow-ups"
   },
+  {
+    id: 6,
+    slug: "home-visit",
+    title: "Home Visit",
+    description: "Professional physiotherapy care in the comfort of your home. Ideal for those with limited mobility or busy schedules.",
+    icon: "🏠",
+    external: true,
+    link: "tel:+918767009944",
+    linkText: "Call Now",
+    fullDescription: "Our Home Visit service brings expert physiotherapy care directly to your doorstep. We understand that visiting a clinic can be challenging due to pain, mobility issues, or a busy lifestyle. Our team comes fully equipped to provide the same high-quality treatment you'd receive at our clinic, including manual therapy, exercise prescription, and rehabilitation support, all in the comfort and privacy of your own home.",
+
+
+  }
 ];
 
